@@ -2,22 +2,12 @@ const serverless = require("serverless-http");
 const express = require("express");
 const app = express();
 
-app.get("/", (req, res, next) => {
-  return res.status(200).json({
-    message: "Hello from root!",
-  });
-});
+const CounterController = require('./controller/CounterController');
+const UserController = require('./controller/UserController');
 
-app.get("/hello", (req, res, next) => {
-  return res.status(200).json({
-    message: "Hello from path!",
-  });
-});
-
-app.use((req, res, next) => {
-  return res.status(404).json({
-    error: "Not Found",
-  });
-});
+app.get("/counter", CounterController.get);
+app.put("/counter", CounterController.update);
+app.get("/user", UserController.get);
+app.post("/user", UserController.create);
 
 module.exports.handler = serverless(app);
