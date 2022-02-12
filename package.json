@@ -1,0 +1,19 @@
+{
+  "name": "ton-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "local": "serverless offline",
+    "deploy": "serverless deploy",
+    "test": "npx jest --runInBand --config ./jest.config.js"
+  },
+  "dependencies": {
+    "axios": "^0.25.0",
+    "express": "^4.17.1",
+    "serverless-http": "^2.7.0"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "serverless-offline": "^8.4.0"
+  }
+}
