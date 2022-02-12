@@ -9,7 +9,6 @@ provider:
 plugins:
   - serverless-offline
 
-
 functions:
   api:
     handler: app/handler.handler
