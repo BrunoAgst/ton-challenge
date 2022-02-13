@@ -1,8 +1,8 @@
 'use-strict'
 
-const axios = require('axios');
+const axios = require("axios");
 
-const { GETNUMBEROFHITS, UPDATENUMBEROFHITS} = require('../util/EnumURL');
+const { GETNUMBEROFHITS, UPDATENUMBEROFHITS} = require("../util/EnumURL");
 
 class CounterService {
     constructor(){}

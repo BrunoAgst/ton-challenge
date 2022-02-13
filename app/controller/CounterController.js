@@ -1,6 +1,6 @@
 'use-strict'
 
-const { getNumberOfHits, updateNumberOfHits } = require('../service/CounterService');
+const { getNumberOfHits, updateNumberOfHits } = require("../service/CounterService");
 class CounterController {
     constructor(){}
 

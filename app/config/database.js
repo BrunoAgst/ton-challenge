@@ -1,6 +1,6 @@
 'use strict'
 
-const { connect, connection } = require('mongoose');
+const { connect, connection } = require("mongoose");
 
 module.exports = () => {
     const url = 'mongodb://localhost:27017/ton';
