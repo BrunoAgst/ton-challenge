@@ -1,5 +1,6 @@
 'use-strict'
 
+const UserFactory = require('../factory/UserFactory');
 const { createUser } = require('../service/UserService');
 
 class UserController {
@@ -16,16 +17,16 @@ class UserController {
         try {
             
             const payload = request.body;
+
+            const user = new UserFactory(payload).factory();
             
-            const { code, message } = await createUser(payload);
+            const { code, message } = await createUser(user);
 
             if(code === 400) {
-                return response.status(code).json({ message: message });
+                return response.status(code).json({ message });
             }
 
-            return response.status(200).json({
-                message: 'created success'
-            })
+            return response.status(code).json({ message });
             
         } catch (error) {
             console.log(error);
