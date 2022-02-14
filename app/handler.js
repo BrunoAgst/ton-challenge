@@ -9,12 +9,13 @@ const app = express();
 
 const CounterController = require('./controller/CounterController');
 const UserController = require('./controller/UserController');
+const middleware = require('./middleware');
 
 app.use(express.json());
 
 app.get("/v1/counter", CounterController.get);
 app.put("/v1/counter", CounterController.update);
 app.get("/v1/user/:tax_id", UserController.get);
-app.post("/v1/user", UserController.create);
+app.post("/v1/user", middleware.create, UserController.create);
 
 module.exports.handler = serverless(app);
