@@ -1,15 +1,24 @@
 'use-strict'
 
-const UserFactory = require('../factory/UserFactory');
-const { createUser } = require('../service/UserService');
+const UserFactory = require("../factory/UserFactory");
+const { createUser, getUser } = require("../service/UserService");
 
 class UserController {
     constructor() {}
 
     async get(request, response){
-        return response.status(200).json({
-            message: 'ok'
-        })
+
+        const tax_id = request.params.tax_id;
+
+        const { code, message } = await getUser(tax_id);
+
+        if(code === 404) {
+            return response.status(404).json(message);
+        }
+
+        const user = new UserFactory(message).ResponseFactory();
+
+        return response.status(code).json(user);
     }
 
     async create(request, response){
@@ -17,8 +26,8 @@ class UserController {
         try {
             
             const payload = request.body;
-
-            const user = new UserFactory(payload).factory();
+            
+            const user = new UserFactory(payload).RequestFactory();
             
             const { code, message } = await createUser(user);
 
