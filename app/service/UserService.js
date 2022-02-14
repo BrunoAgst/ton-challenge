@@ -42,14 +42,7 @@ class UserService {
             };
     
         } catch (error) {
-            if (error.name === 'ValidationError') {          
-                return {
-                    code: 400,
-                    message: Object.values(error.errors).map(err => err.message)
-                };
-            }
-
-            throw new Error(error);
+            return error;
         }
     }
 }
