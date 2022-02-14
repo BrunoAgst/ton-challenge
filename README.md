@@ -146,3 +146,17 @@ O que deve resultar na seguinte resposta:
   "tax_id": "12345"
 }
 ```
+
+## Removendo a aplicação
+Para remover a aplicação basta utilizar o seguinte comando:
+```
+npm run remove
+```
+
+## Teste Unitários
+Para rodar os teste basta utilizar o seguinte comando:
+```
+npm run test
+```
+
+Após rodar os testes unitários irá criar uma pasta coverage, e dentro da mesma terá um arquivo index.html. Abrindo o arquivo pelo navegador terá detalhes de todos os testes.

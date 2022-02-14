@@ -14,7 +14,6 @@
     "express": "^4.17.1",
     "joi": "^17.6.0",
     "mongoose": "^6.2.1",
-    "npm-check-updates": "^12.3.0",
     "serverless-http": "^2.7.0"
   },
   "devDependencies": {
