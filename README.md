@@ -1,41 +1,48 @@
-<!--
-title: 'Serverless Framework Node Express API on AWS'
-description: 'This template demonstrates how to develop and deploy a simple Node Express API running on AWS Lambda using the traditional Serverless Framework.'
-layout: Doc
-framework: v2
-platform: AWS
-language: nodeJS
-priority: 1
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
+# Ton Challenge API
 
-# Serverless Framework Node Express API on AWS
+Esta API tem como objetivo verificar a quantidade de acessos do site [Ton](https://www.ton.com.br), criar um usuário e consultar o mesmo.
 
-This template demonstrates how to develop and deploy a simple Node Express API service running on AWS Lambda using the traditional Serverless Framework.
+# Endpoints
 
-## Anatomy of the template
+A API conta com quatro endpoints:
+- GET - /v1/counter - Consulta a quantidade de acessos ao site;
+- PUT - /v1/counter - Incrementa o número de acessos ao site;
+- GET - /v1/counter/{tax_id} - Retorna os dados de um único usuário;
+- POST - /v1/counter - Cria cadastro do usuário.
 
-This template configures a single function, `api`, which is responsible for handling all incoming requests thanks to the `httpApi` event. To learn more about `httpApi` event configuration options, please refer to [httpApi event docs](https://www.serverless.com/framework/docs/providers/aws/events/http-api/). As the event is configured in a way to accept all incoming requests, `express` framework is responsible for routing and handling requests internally. Implementation takes advantage of `serverless-http` package, which allows you to wrap existing `express` applications. To learn more about `serverless-http`, please refer to corresponding [GitHub repository](https://github.com/dougmoscrop/serverless-http).
+# Configuração Inicial
 
-## Usage
-
-### Deployment
-
-Install dependencies with:
+## Instalação
+Instalar as dependências:
 
 ```
 npm install
 ```
 
-and then deploy with:
+## Configuração das variáveis de ambiente
+Precisa configurar a url do banco de dados, para fazer isso precisa criar um arquivo chamado .env. Existe um arquivo de exemplo o .env.example.
+
+Exemplo:
+```
+DB_HOST=mongodb+srv://<username>:<password>@cluster0.k5ocr.mongodb.net/ton
+```
+# Deploy
+## Subindo Localmente 
+
+Para subir a aplicação localmente basta utilizar o seguinte comando:
 
 ```
-serverless deploy
+npm run local
+```
+## Deploy AWS
+Fazendo deploy:
+
+```
+npm run deploy
 ```
 
-After running deploy, you should see output similar to:
+
+Após executar o deploy, você deverá ver uma saída semelhante a:
 
 ```bash
 Serverless: Packaging service...
@@ -54,74 +61,88 @@ Serverless: Checking Stack update progress...
 Serverless: Stack update finished...
 Service Information
 service: aws-node-express-api
-stage: dev
 region: us-east-1
 stack: aws-node-express-api-dev
-resources: 12
-api keys:
-  None
+
 endpoints:
-  ANY - https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
+  PUT - https://xxxxxxx.execute-api.us-east-2.amazonaws.com/v1/counter
+  GET - https://xxxxxxx.execute-api.us-east-2.amazonaws.com/v1/counter
+  GET - https://xxxxxxx.execute-api.us-east-2.amazonaws.com/v1/user/{tax_id}
+  POST - https://xxxxxxx.execute-api.us-east-2.amazonaws.com/v1/user
 functions:
   api: aws-node-express-api-dev-api
-layers:
-  None
 ```
 
-_Note_: In current form, after deployment, your API is public and can be invoked by anyone. For production deployments, you might want to configure an authorizer. For details on how to do that, refer to [`httpApi` event docs](https://www.serverless.com/framework/docs/providers/aws/events/http-api/).
+# Invocação
 
-### Invocation
+## Consultando a quantidade de acessos ao site
+Após a implantação bem-sucedida, você pode chamar o aplicativo criado via HTTP:
 
-After successful deployment, you can call the created application via HTTP:
-
+Exemplo:
 ```bash
-curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
+curl https://xxxxxxx.execute-api.us-east-2.amazonaws.com/counter
 ```
 
-Which should result in the following response:
+O que deve resultar na seguinte resposta:
 
 ```
-{"message":"Hello from root!"}
+{ "numberOfHits": 64 }
 ```
 
-Calling the `/hello` path with:
+## Incrementando número de acessos ao site
+Para incrementar a quantidade de acesso basta fazer um put na rota counter.
 
+Exemplo:
 ```bash
-curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/hello
+curl -X PUT https://xxxxxxx.execute-api.us-east-2.amazonaws.com/counter
 ```
 
-Should result in the following response:
-
-```bash
-{"message":"Hello from path!"}
-```
-
-If you try to invoke a path or method that does not have a configured handler, e.g. with:
-
-```bash
-curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/nonexistent
-```
-
-You should receive the following response:
-
-```bash
-{"error":"Not Found"}
-```
-
-### Local development
-
-It is also possible to emulate API Gateway and Lambda locally by using `serverless-offline` plugin. In order to do that, execute the following command:
-
-```bash
-serverless plugin install -n serverless-offline
-```
-
-It will add the `serverless-offline` plugin to `devDependencies` in `package.json` file as well as will add it to `plugins` in `serverless.yml`.
-
-After installation, you can start local emulation with:
+O que deve resultar na seguinte resposta:
 
 ```
-serverless offline
+{ "message": "Update success" }
 ```
 
-To learn more about the capabilities of `serverless-offline`, please refer to its [GitHub repository](https://github.com/dherault/serverless-offline).
+## Cadastrando um usuário
+Para cadastrar um usuário precisar informar um json com os seguintes campos:
+- name - obrigatório
+- age - não obrigatório
+- email - obrigatório
+- tax_id - obrigatório
+
+Exemplo: 
+```
+curl -X POST https://xxxxxxx.execute-api.us-east-2.amazonaws.com/counter/12345
+
+```
+```
+{
+    "name": "Bruno Augusto",
+    "age": 25,
+    "email": "bruno@teste.com",
+    "tax_id": "12345"
+}
+```
+
+O que deve resultar na seguinte resposta:
+```
+{ "message": "created success" }
+```
+
+## Consultando um usuário
+Para consultar um usuário basta informar o cpf:
+
+```
+curl https://xxxxxxx.execute-api.us-east-2.amazonaws.com/counter/12345
+
+```
+
+O que deve resultar na seguinte resposta:
+```
+{   
+  "name": "Bruno Augusto",
+  "age": 25,
+  "email": "bruno@teste.com",
+  "tax_id": "12345"
+}
+```
