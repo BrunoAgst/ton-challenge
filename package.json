@@ -11,6 +11,7 @@
     "axios": "^0.25.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.1",
+    "joi": "^17.6.0",
     "mongoose": "^6.2.1",
     "serverless-http": "^2.7.0"
   },
