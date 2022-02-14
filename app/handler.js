@@ -12,9 +12,9 @@ const UserController = require('./controller/UserController');
 
 app.use(express.json());
 
-app.get("/counter", CounterController.get);
-app.put("/counter", CounterController.update);
-app.get("/user/:email", UserController.get);
-app.post("/user", UserController.create);
+app.get("/v1/counter", CounterController.get);
+app.put("/v1/counter", CounterController.update);
+app.get("/v1/user/:tax_id", UserController.get);
+app.post("/v1/user", UserController.create);
 
 module.exports.handler = serverless(app);
