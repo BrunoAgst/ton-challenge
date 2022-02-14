@@ -153,7 +153,7 @@ Para remover a aplicação basta utilizar o seguinte comando:
 npm run remove
 ```
 
-## Teste Unitários
+## Testes Unitários
 Para rodar os teste basta utilizar o seguinte comando:
 ```
 npm run test
