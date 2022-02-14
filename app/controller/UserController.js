@@ -1,7 +1,7 @@
 'use-strict'
 
 const UserFactory = require("../factory/UserFactory");
-const { createUser, getUser } = require("../service/UserService");
+const UserService = require("../service/UserService");
 
 class UserController {
     constructor() {}
@@ -10,36 +10,43 @@ class UserController {
 
         const tax_id = request.params.tax_id;
 
-        const { code, message } = await getUser(tax_id);
+        const { code, message } = await UserService.getUser(tax_id);
 
         if(code === 404) {
-            return response.status(404).json(message);
+            response.status(404);
+            response.json(message);
+            return
         }
 
         const user = new UserFactory(message).ResponseFactory();
 
-        return response.status(code).json(user);
+        response.status(code);
+        response.json(user);
+        return
     }
 
     async create(request, response){
 
         try {
-            
             const payload = request.body;
             
             const user = new UserFactory(payload).RequestFactory();
             
-            const { code, message } = await createUser(user);
+            const { code, message } = await UserService.createUser(user);
 
             if(code === 400) {
-                return response.status(code).json({ message });
+                response.status(code);
+                response.json({ message });
+                return
             }
 
-            return response.status(code).json({ message });
+            response.status(code);
+            response.json({ message });
             
         } catch (error) {
             console.log(error);
-            return response.status(503).json({ message: "Service Unavailable" });
+            response.status(503);
+            response.json({ message: "Service Unavailable" });
         }
     }
 }
