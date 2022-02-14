@@ -1,6 +1,7 @@
 'use-strict'
 
-require('./config/database')()
+require('dotenv').config();
+require("./config/database")();
 
 const serverless = require("serverless-http");
 const express = require("express");
@@ -13,7 +14,7 @@ app.use(express.json());
 
 app.get("/counter", CounterController.get);
 app.put("/counter", CounterController.update);
-app.get("/user", UserController.get);
+app.get("/user/:email", UserController.get);
 app.post("/user", UserController.create);
 
 module.exports.handler = serverless(app);
