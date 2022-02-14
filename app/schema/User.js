@@ -15,7 +15,7 @@ const userSchema = new Schema(
             type: String,
             required: true,
         },
-        password: {
+        tax_id: {
             type: String,
             required: true
         }
