@@ -8,9 +8,16 @@ provider:
   region: us-east-2
   memorySize: 512
 
+package:
+  exclude:
+    - node_modules/**
+  excludeDevDependencies: false
+
 plugins:
   - serverless-offline
   - serverless-dotenv-plugin
+  - serverless-plugin-include-dependencies
+
 functions:
   api:
     handler: app/handler.handler
