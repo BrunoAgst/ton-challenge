@@ -5,6 +5,7 @@
   "scripts": {
     "local": "serverless offline",
     "deploy": "serverless deploy",
+    "remove": "serverless remove",
     "test": "npx jest --runInBand --config ./jest.config.js"
   },
   "dependencies": {
